@@ -24,39 +24,55 @@ app.get('/api/courses', (req, res) => {
 });
  
 app.post('/api/courses', (req, res) => {
-
-  const schema = Joi.object({
-    name: Joi.string()
-    .min(3)
-    .max(30)
-    .required()
-  }) //end of schema
-
-  const result = schema.validate(req.body, schema.name);
-  console.log(result);
-
-  if( result.error ){
+    // implement new function
+    const { error } = validateCourse(req.body);
     // 400 bad request
-    res.status(400).send(result.error.details[0].message);
-    return;   
-  }
+    if( error ){
+        res.status(400).send(result.error.details[0].message);
+        return;   
+    }
 
   const course = {
     id: courses.length +1,
     name: req.body.name
   };
-// NEW
+
+// ********** NEW
 app.put('api/courses/:id', (req, resp) => {
     // Look up the course
     // If not existing, returen 404
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if(!course) res.status(404)
+    .send('the course with the given ID was not found. "404"');
     
     // Validate
     // If invalid, return 400 - Bad request
-
-    // Update course
-    // Return the update course
+    // const result = validateCourse(req.body);
+    // object destructor - result.error
+    const { error } = validateCourse(req.body);
+    // 400 bad request
+    if( error ){
+        res.status(400).send(result.error.details[0].message);
+        return;   
+    }
     
+    // Update course
+    course.name = req.body.name;
+    // Return the update course
+    res.send(course);
 });
+
+// validation logic in one place
+function validateCourse(course){
+    const schema = Joi.object({
+        name: Joi.string()
+        .min(3)
+        .max(30)
+        .required()
+    });
+    
+    return schema.validate(course, schema.name);
+}
 
   courses.push(course);
 
