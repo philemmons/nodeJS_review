@@ -1,3 +1,5 @@
+// https://www.youtube.com/watch?v=pKd0Rpw7O48
+
 // all require at the TOP of the file
 // shows dependencies
 const Joi = require('@hapi/joi');
