@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 
-// handling GET requests
+// ********* handling GET requests
 // get a single course from the server
 const courses = [
     {id: 1, name: 'course1' },

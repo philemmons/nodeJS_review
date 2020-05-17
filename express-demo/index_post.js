@@ -10,7 +10,7 @@ const app = express();
 //adding a piece of middleware and app.use it  lol
 app.use( express.json() );
 
-// handling POST requests
+// ********* handling POST requests
 // get a single course from the server
 const courses = [
     {id: 1, name: 'course1' },

@@ -4,7 +4,7 @@
 
 // https://nodejs.org/dist/latest-v12.x/docs/api/http.html
 
-// HTTP Module
+// ******** HTTP Module
 
 // a framework gives our application the proper structure!!
 // maintainable!!
@@ -31,7 +31,7 @@ const server = http.createServer(( req, res ) => {
   
 });
 
-// EventEmitter!
+// ******* EventEmitter!
 
 // very low level example
 /*
