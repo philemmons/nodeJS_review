@@ -1,7 +1,7 @@
 // https://www.youtube.com/watch?v=pKd0Rpw7O48
 
-// ******** handling PUT requests
-// updating data
+// ******** handling DELETE requests
+// REMOVING DATA
 
 const Joi = require('@hapi/joi');
 const express = require('express');
@@ -37,8 +37,7 @@ app.post('/api/courses', (req, res) => {
     name: req.body.name
   };
 });
-
-// ********** NEW
+// OMG forgot the forward slash !!!!
 app.put('/api/courses/:id', (req, res) => {
     // Look up the course
     // If not existing, returen 404
@@ -46,17 +45,13 @@ app.put('/api/courses/:id', (req, res) => {
     if(!course) res.status(404)
         .send('the course with the given ID was not found. "404"');
     
-    // Validate
-    // If invalid, return 400 - Bad request
-    // const result = validateCourse(req.body);
+    // Validate - If invalid, return 400 - Bad request
     // object destructor - result.error
     const { error } = validateCourse(req.body);
-    // 400 bad request
     if( error ){
         res.status(400).send(error.details[0].message);
         return;   
     }
-    
     // Update course
     course.name = req.body.name;
     // Return the update course

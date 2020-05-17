@@ -3,7 +3,6 @@
 // all require at the TOP of the file
 // shows dependencies
 const Joi = require('@hapi/joi');
-
 const express = require('express');
 const app = express();
 
@@ -18,9 +17,11 @@ const courses = [
     {id: 3, name: 'course3' },
   ];
 
+
   app.get('/', (req, res) => {
       res.send('hello world');
   });
+
 
   app.get('/api/courses', (req, res) => {
    res.send(courses);
@@ -52,8 +53,7 @@ app.post('/api/courses', (req, res) => {
    return;   
   }
 
-
-    //this would be data returned from the DB
+  //this would be data returned from the DB
   const course = {
     id: courses.length +1,
     name: req.body.name
@@ -63,6 +63,7 @@ app.post('/api/courses', (req, res) => {
 // retrun the object from the body of the response to the client
   res.send(course);
 });
+
 
  app.get('/api/courses/:id', (req, res) => {
    const course = courses.find(c => c.id === parseInt(req.params.id));
