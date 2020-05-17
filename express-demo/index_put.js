@@ -1,6 +1,7 @@
 // https://www.youtube.com/watch?v=pKd0Rpw7O48
 
-// ******** handling PUT request
+// ******** handling PUT requests
+// updating data
 
 const Joi = require('@hapi/joi');
 const express = require('express');
@@ -44,6 +45,18 @@ app.post('/api/courses', (req, res) => {
     id: courses.length +1,
     name: req.body.name
   };
+// NEW
+app.put('api/courses/:id', (req, resp) => {
+    // Look up the course
+    // If not existing, returen 404
+    
+    // Validate
+    // If invalid, return 400 - Bad request
+
+    // Update course
+    // Return the update course
+    
+});
 
   courses.push(course);
 
