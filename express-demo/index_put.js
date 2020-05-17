@@ -15,6 +15,18 @@ const courses = [
   {id: 3, name: 'course3' },
 ];
 
+// validation logic in one place
+function validateCourse(course){
+    const schema = Joi.object({
+        name: Joi.string()
+        .min(3)
+        .max(30)
+        .required()
+    });
+    
+    return schema.validate(course, schema.name);
+}
+
 app.get('/', (req, res) => {
   res.send('hello world');
 });
@@ -36,6 +48,10 @@ app.post('/api/courses', (req, res) => {
     id: courses.length +1,
     name: req.body.name
   };
+
+  courses.push(course);
+
+  res.send(course);
 });
 
 // ********** NEW
@@ -61,23 +77,6 @@ app.put('/api/courses/:id', (req, res) => {
     course.name = req.body.name;
     // Return the update course
     res.send(course);
-});
-
-// validation logic in one place
-function validateCourse(course){
-    const schema = Joi.object({
-        name: Joi.string()
-        .min(3)
-        .max(30)
-        .required()
-    });
-    
-    return schema.validate(course, schema.name);
-}
-
-  courses.push(course);
-
-  res.send(course);
 
 }); //end of app.post...
 

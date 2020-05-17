@@ -15,6 +15,18 @@ const courses = [
   {id: 3, name: 'course3' },
 ];
 
+// validation logic in one place
+function validateCourse(course){
+    const schema = Joi.object({
+        name: Joi.string()
+        .min(3)
+        .max(30)
+        .required()
+    });
+    
+    return schema.validate(course, schema.name);
+}
+
 app.get('/', (req, res) => {
   res.send('hello world');
 });
@@ -36,8 +48,12 @@ app.post('/api/courses', (req, res) => {
     id: courses.length +1,
     name: req.body.name
   };
+
+  courses.push(course);
+
+  res.send(course);
 });
-// OMG forgot the forward slash !!!!
+
 app.put('/api/courses/:id', (req, res) => {
     // Look up the course
     // If not existing, returen 404
@@ -45,36 +61,20 @@ app.put('/api/courses/:id', (req, res) => {
     if(!course) res.status(404)
         .send('the course with the given ID was not found. "404"');
     
-    // Validate - If invalid, return 400 - Bad request
+    // Validate: If invalid, return 400 - Bad request
     // object destructor - result.error
     const { error } = validateCourse(req.body);
     if( error ){
         res.status(400).send(error.details[0].message);
         return;   
     }
+    
     // Update course
     course.name = req.body.name;
-    // Return the update course
+    // Return the updated course
     res.send(course);
-});
 
-// validation logic in one place
-function validateCourse(course){
-    const schema = Joi.object({
-        name: Joi.string()
-        .min(3)
-        .max(30)
-        .required()
-    });
-    
-    return schema.validate(course, schema.name);
-}
-
-  courses.push(course);
-
-  res.send(course);
-
-}); //end of app.post...
+}); //end of app.post
 
  app.get('/api/courses/:id', (req, res) => {
    const course = courses.find(c => c.id === parseInt(req.params.id));
@@ -83,7 +83,6 @@ function validateCourse(course){
    res.send(course);
  });
  
- // dynamic var
- // in the terminal: export PORT=5000
+ // dynamic var - in the terminal: export PORT=5000
  const port = process.env.PORT || 3000;
  app.listen(port, () => console.log(`Listening on port ${port}...`));
